@@ -1,0 +1,15 @@
+{
+  "name": "TortasDaLinaBackEnd",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": "https://github.com/jcal1998/TortasDaLinaBackEnd.git",
+  "author": "jcal1998 <josecarlos_lee@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev" : "nodemon"
+  },
+  "devDependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
