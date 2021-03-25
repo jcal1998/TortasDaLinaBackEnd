@@ -1,53 +1,66 @@
-const { response } = require('express');
+const { request } = require('express');
 const express = require('express');
+const {uuid} = require('uuidv4');
 
 const app=express();
 
 app.use(express.json())
 
+const orders = [];
+
 app.get('/orders', (request , response) => {
-    const {title, owner} = request.query;
+    const {title} = request.query;
 
-    console.log(title);
-    console.log(owner);
+    const results = title 
+    ? orders.filter(order => order.title.includes(title))
+    : orders;
 
-    return response.json([
-        'projeto 1',
-        'projeto 2',
-    ]);
+    return response.json(results);
 })
 
 app.post('/orders', (request , response) =>{
     const {title, owner} = request.body;
 
-    console.log(title);
-    console.log(owner);
+    const order = {id:uuid(),  title, owner};
 
+    orders.push(order);
 
-    return response.json([
-        'projeto 1',
-        'projeto 2',
-        'projeto 3',
-    ]);
+    return response.json(order);
 })
 
 app.put('/orders/:id', (request , response) =>{
     const {id} = request.params;
+    const {title, owner} = request.body;
 
-    console.log(id)
+    const orderIndex = orders.findIndex(order => order.id === id);
 
-    return response.json([
-        'projeto 4',
-        'projeto 2',
-        'projeto 3',
-    ]);
+    if(orderIndex < 0){
+        return response.status(400).json({ error : 'order does not exist'})
+    }
+
+    const order = {
+        id,
+        title,
+        owner,
+    }
+
+    orders[orderIndex] = order;
+
+    return response.json(order);
 })
 
-app.delete('/orders/:id', (resquest , response) => {
-    return  response.json([
-        'projeto 2',
-        'projeto 3',
-    ])
+app.delete('/orders/:id', (request , response) => {
+    const {id} = request.params;
+
+    const orderIndex = orders.findIndex(order => order.id === id);
+
+    if(orderIndex < 0){
+        return response.status(400).json({ error : 'order does not exist'})
+    }
+
+    orders.splice(orderIndex, 1)
+
+    return  response.status(204).send()
 })
 
 app.listen(3333, () => {

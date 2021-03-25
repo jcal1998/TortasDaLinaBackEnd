@@ -6,10 +6,13 @@
   "author": "jcal1998 <josecarlos_lee@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev" : "nodemon"
+    "dev": "nodemon"
   },
   "devDependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "uuidv4": "^6.2.6"
   }
 }
